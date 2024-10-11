@@ -1,0 +1,9 @@
+<div class="card m-4 page-font card-product" style="width: 18rem;">
+  <img [src]="product_src_img" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{ product_name }}</h5>
+    <p class="card-text">{{ product_ingredients }}</p>
+    <p class="card-text">{{ product_price | currency: '$'}}</p>
+    <button type="button" class="btn bg-main-green text-color-white" (click)="addToCart()">Agregar al carrito</button>
+  </div>
+</div>

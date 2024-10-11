@@ -1,0 +1,28 @@
+{
+    "name": "api_ThePoio",
+    "version": "1.0.0",
+    "description": "API dedicada a la pizzeria The Poio para poder registrar los usuarios y productos",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon ."
+    },
+    "keywords": [
+        "pizza",
+        "ThePoio",
+        "e-commerce",
+        "comida"
+    ],
+    "author": "Paula",
+    "license": "ISC",
+    "devDependencies": {
+        "nodemon": "^3.0.3"
+    },
+    "dependencies": {
+        "api_ThePoio": "file:",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.1.0"
+    }
+}

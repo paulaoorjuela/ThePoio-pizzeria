@@ -1,0 +1,60 @@
+.logo-navbar{
+  height: 48px;
+  font-size: 58px;
+}
+
+.pizzeria{
+  letter-spacing: 10.6px;
+  font-size: 24px;
+}
+
+.div-logo{
+  margin-right: 14rem;
+}
+
+input {
+  outline: 0;
+  border-width: 0 0 1px;
+  border-color: var(--white)
+}
+input:focus {
+  border-color: var(--main-green);
+  outline: 0
+}
+
+.navbar-options{
+  z-index: 200;
+}
+
+.input-search::placeholder{
+  font-family: rubik;
+  color: var(--main-green);
+  opacity: 1;
+}
+
+.admin-options:hover{
+  color: var(--black) !important;
+}
+
+.admin-options:active{
+  background-color: var(--main-red);
+}
+
+.no-opacity {
+  opacity: 1 !important;
+}
+
+
+.modal-line{
+  width: 100%;
+  height: 1px;
+  background-color: #bbbbbb;
+}
+
+.modal-content {
+  overflow: hidden;
+}
+
+.modal-content .offcanvas {
+  position: absolute;
+}

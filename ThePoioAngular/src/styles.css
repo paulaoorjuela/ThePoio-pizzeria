@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --main-green: #317337;
+  --main-red: #DA2A2A;
+}
+
+@font-face {
+  font-family: jomhuria-regular;
+  src: url(assets/fonts/Jomhuria-Regular.ttf);
+}
+
+@font-face {
+  font-family: rubik;
+  src: url(assets/fonts/Rubik-VariableFont_wght.ttf);
+}
+
+.logo-font{
+  font-family: jomhuria-regular;
+}
+
+.page-font{
+  font-family: rubik;
+}
+
+.bg-black{
+  background-color: var(--black) !important;
+}
+
+.bg-white{
+  background-color: var(--white) !important;
+}
+
+.bg-main-green{
+  background-color: var(--main-green) !important;
+}
+
+.bg-main-red{
+  background-color: var(--main-red) !important;
+}
+
+.text-color-black{
+  color: var(--black) !important;
+}
+
+.text-color-white{
+  color: var(--white) !important;
+}
+
+.text-color-main-green{
+  color: var(--main-green) !important;
+}
+
+.text-color-main-red{
+  color: var(--main-red) !important;
+}

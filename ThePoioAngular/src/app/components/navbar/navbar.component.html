@@ -1,0 +1,258 @@
+<!-- Orders Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="orders" (ngSubmit)="submitFormOrder()">
+          <div class="mb-3">
+            <label for="fullName" class="form-label">Nombre completo</label>
+            <input type="text" class="form-control" id="fullName" name="fullName" formControlName="user_name">
+          </div>
+          <div class="mb-3">
+            <label for="address" class="form-label">Dirección</label>
+            <input type="text" class="form-control" id="address" name="address" formControlName="address">
+          </div>
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Numero de teléfono</label>
+            <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" formControlName="phone">
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<nav class="navbar navbar-expand-lg bg-black sticky-top">
+  <div class="container-fluid">
+    <div class="d-flex flex-column ms-3 div-logo">
+      <a class="navbar-brand logo-font logo-navbar" href="#"><span class="text-color-main-green">The</span><span
+          class="text-color-white"> Poio</span></a>
+      <a class="navbar-brand logo-font" href="#"><span class="text-color-main-red pizzeria">pizzería</span></a>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-5 mb-2 mb-lg-0">
+        <li class="nav-item me-5">
+          <a class="nav-link active text-white page-font" aria-current="page" routerLink="/menu">Menu</a>
+        </li>
+        <li class="nav-item me-5">
+          <a class="nav-link active text-white page-font" href="#">Promociones</a>
+        </li>
+        @if (!loggedIn) {
+        <li class="nav-item page-font">
+          <!-- Button trigger modal Login-->
+          <button type="button" class="btn text-white px-0" data-bs-toggle="modal" data-bs-target="#loginModal">
+            Login
+          </button>
+        </li>
+        }@else {
+        <li class="nav-item page-font">
+          <button type="button" class="btn text-white" (click)="clearSessionStorage()">
+            Logout
+          </button>
+        </li>
+        }
+      </ul>
+      <form class="d-flex me-auto" role="search">
+        <input class="form-control me-2 bg-black rounded-0 input-search" type="search" placeholder="Buscar"
+          aria-label="Search">
+        <button class="btn btn-outline-success border border-0" type="submit"><i
+            class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+      <ul class="navbar-nav me-3 mb-2 mb-lg-0 navbar-options">
+        @if(payloadAdmin == true){
+        <li class="nav-item me-5">
+          <div class="dropdown">
+            <button class="btn btn-secondary border-0 bg-black text-color-white dropdown-toggle" type="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-regular fa-address-card"></i>
+            </button>
+            <ul class="dropdown-menu bg-black page-font">
+              <li><a class="dropdown-item text-white admin-options" routerLink="/admin-ingredients">Ingredientes</a>
+              </li>
+              <li><a class="dropdown-item text-white admin-options" routerLink="/admin-products">Productos</a></li>
+              <li><a class="dropdown-item text-white admin-options" routerLink="/admin-orders">Pedidos</a></li>
+            </ul>
+          </div>
+        </li>
+        }
+        <li class="nav-item">
+          <!-- Button trigger offCanvas - shopping cart -->
+          <button class="btn text-white page-font bg-black" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i
+              class="fa-solid fa-cart-shopping"></i></button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- offCanvas - shopping cart -->
+<div class="offcanvas offcanvas-end page-font" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Carrito</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    @for (item of listShopingCartItem; track $index) {
+      <div class="card mb-3 page-font" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img [src]="item.product_src_img" class="img-fluid rounded-start pt-2" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.product_name }}</h5>
+              <p class="card-text">Precio: {{ item.product_price | currency: '$' }}</p>
+              <p class="card-text"><small class="text-body-secondary">Cantidad: {{ item.product_quantity }}</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    <div class="fw-bold fs-5 mt-2 mb-4">Precio Total: {{ getTotalPrice() | currency: '$' }}</div>
+    <div class="d-flex justify-content-between">
+      <button class="btn btn-danger" (click)="clearCart()">Borrar el carrito <i class="fa-solid fa-trash"></i></button>
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Pagar <i class="fa-solid fa-cash-register"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal fade page-font" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="login">
+          <div class="pt-3 px-3">
+            <label for="inputEmailLogin">Correo electronico</label>
+            <input type="text" class="form-control rounded-5 mt-3 bg-body-secondary" formControlName="user_email"
+              id="inputEmailLogin">
+            <div class="fs-6 text-danger opacity-0"
+              [class.no-opacity]="login.get('user_email')?.hasError('required') && login.get('user_email')?.touched">
+              El email es obligatorio</div>
+            <div class="fs-6 text-danger opacity-0"
+              [class.no-opacity]='login.get("user_email")?.hasError("pattern") && login.get("user_email")?.touched'>
+              el email no es valido
+            </div>
+          </div>
+          <div class="px-3">
+            <label for="inputPasswordLogin">Contraseña</label>
+            <input type="password" class="form-control rounded-5 mt-3 bg-body-secondary" formControlName="user_password"
+              id="inputPasswordLogin">
+            <div class="fs-6 text-danger opacity-0"
+              [class.no-opacity]='login.get("user_password")?.hasError("required") && login.get("user_password")?.touched'>
+              La contraseña es obligatoria
+            </div>
+            <div class="fs-6 text-danger opacity-0"
+              [class.no-opacity]='login.get("user_password")?.hasError("minlength") && login.get("user_password")?.touched'>
+              Debe tener minimo 6 caracteres
+            </div>
+          </div>
+        </form>
+
+        <div class="d-flex justify-content-center p-3">
+          <span>¿No tienes una cuenta? </span><button
+            class="btn pt-0 ms-1 text-decoration-none text-color-main-green fw-bold" data-bs-toggle="modal"
+            data-bs-target="#registerModal">
+            Regístrate aqui</button>
+        </div>
+        <h6 class="d-flex justify-content-center mt-3">O ingresa con</h6>
+        <div class="d-flex justify-content-center">
+          <div><i class="fa-brands fa-google m-3 fa-2x"></i></div>
+          <div><i class="fa-brands fa-facebook m-3 fa-2x"></i></div>
+          <div><i class="fa-brands fa-apple m-3 fa-2x"></i></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn bg-main-green text-color-white" (click)="userLogin()">Ingresar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal fade page-font" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Regístrate</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="cuadro rounded-5 p-3 d-flex flex-column justify-content-center">
+          <form [formGroup]="registration" (ngSubmit)="userRegistration()">
+            <div class="p-3 ">
+              <label for="inputUserEmailRegistration" class="">Correo electronico</label>
+              <input id="inputUserEmailRegistration" type="text" class="form-control rounded-5 mt-3 bg-body-secondary"
+                formControlName="user_email" />
+              @if (registration.get('user_email')?.hasError('required')&&
+              registration.get('user_email')?.touched) {
+              <div class="text-danger">El correo es obligatorio</div>
+              }
+              @if (registration.get('user_email')?.hasError('pattern')&&
+              registration.get('user_email')?.touched) {
+              <div class="text-danger">No es un correo valido</div>
+              }
+
+            </div>
+
+            <div class="p-3 ">
+              <label for="inputUsername" class="rounded-5">nombre de usuario
+              </label>
+              <input id="inputUsername" type="text" class="form-control rounded-5 mt-3 bg-body-secondary"
+                formControlName="user_name" />
+              @if (registration.get('user_name')?.hasError('required')&& registration.get('user_name')?.touched) {
+              <div class="text-danger">Debes tener un nombre de usuario</div>}
+              @if (registration.get('user_name')?.hasError('pattern') && registration.get ('user_name')?.touched) {
+              <div class="text-danger">Ingresa un nombre valido</div>}
+            </div>
+            <div class="p-3 ">
+              <label for="inputPasswordRegistration" class="rounded-5">Contraseña</label>
+              <input id="inputPasswordRegistration" type="password"
+                class="form-control rounded-5 mt-3 bg-body-secondary" formControlName="user_password" />
+            </div>
+
+            <div class="p-3 d-flex flex-column justify-content-center">
+              <button type="submit" class="text-color-white bg-main-green my-3 btn rounded-5">Registrarme
+              </button>
+            </div>
+          </form>
+
+          <div class="d-flex justify-content-center modal-line">
+
+          </div>
+          <h6 class="d-flex justify-content-center mt-3 ingresa">O regístrate con</h6>
+
+          <div class="d-flex justify-content-center">
+            <div><i class="fa-brands fa-google m-3 fa-2x"></i></div>
+            <div><i class="fa-brands fa-facebook m-3 fa-2x"></i></div>
+            <div><i class="fa-brands fa-apple m-3 fa-2x"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+

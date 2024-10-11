@@ -1,0 +1,103 @@
+<section class="container my-5 mb-5">
+
+  <h1 class="mb-2 text-color-black page-font text-center title-size">Registro Productos</h1>
+
+  <form class="row g-3 page-font" [formGroup]="RegProductsForm" (ngSubmit)="submitForm()">
+    <div class="col-6">
+      <div class="column">
+        <div class="col-md-10 pt-5">
+          <label for="txtproductName" class="form-label">Nombre Producto</label>
+          <input type="text" class="form-control" id="txtproductName" formControlName="product_name">
+          <div class="text-danger fw-bold opacity-0"
+            [class.no-opacity]="RegProductsForm.get('product_name')?.hasError('required') && RegProductsForm.get('product_name')?.touched">
+            El nombre del producto es obligatorio</div>
+        </div>
+        <div class="col-md-10 pt-5">
+          <label for="txtProductType" class="form-label">Tipo de Producto</label>
+          <select class="form-select" id="txtProductType" formControlName="product_type">
+            <option selected disabled value="">Selecciona el tipo de producto</option>
+            <option value="pizza">pizza</option>
+            <option value="bebida">bebida</option>
+            <option value="postre">postre</option>
+          </select>
+          <div class="text-danger fw-bold opacity-0"
+            [class.no-opacity]="RegProductsForm.get('Product_type')?.hasError('required') && RegProductsForm.get('Product_type')?.touched">
+            El nombre del producto es obligatorio</div>
+        </div>
+        <div class="col-md-10 pt-5">
+          <label for="txtproductIngredients" class="form-label">Ingredientes del producto</label>
+          <input type="text" class="form-control" id="txtproductIngredients" formControlName="product_ingredients">
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="column">
+        <div class="col-md-10 pt-5 mb-3">
+          <label for="txtProductImage" class="form-label">URL Imagen Producto</label>
+          <input type="text" class="form-control" id="txtProductImage" formControlName="product_src_img">
+          <div>
+            @if(RegProductsForm.get('product_src_img')?.hasError('required') &&
+            RegProductsForm.get('product_src_img')?.touched){
+            <div class="text-danger fw-bold">La imagen es obligatoria</div>
+            }
+          </div>
+          <div>
+            @if(RegProductsForm.get('product_src_img')?.hasError('pattern') &&
+            RegProductsForm.get('product_src_img')?.touched){
+            <div class="text-danger fw-bold">La url de la imagen no es valida</div>
+            }
+          </div>
+        </div>
+        <div class="col-md-10 pt-5">
+          <label for="txtProductPrice" class="form-label">Precio Producto</label>
+          <input type="text" class="form-control" id="txtProductPrice" formControlName="product_price">
+          <div class="text-danger fw-bold opacity-0"
+            [class.no-opacity]="RegProductsForm.get('product_price')?.hasError('required') && RegProductsForm.get('product_price')?.touched">
+            precio del producto es obligatorio</div>
+        </div>
+      </div>
+      <input type="text" [formControl]="inputHiddenID" class="visually-hidden">
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn w-25 fw-bold h1 bg-main-green text-color-white">Crear</button>
+    </div>
+  </form>
+</section>
+
+<section class="container mb-5 page-font">
+  <h2 class="text-color-main-green mb-2">Lista de Productos</h2>
+    <div class="table-responsive page-font">
+      <table class="table table-striped align-middle">
+        <thead class="text-center">
+          <tr>
+            <th scope="col" width="150px">Imágen</th>
+            <th scope="col" width="400px">Nombre</th>
+            <th scope="col">precio</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          @for (product of CurrentProductsList(); track product._id) {
+          <tr>
+            <td>
+              <img [src]="product.product_src_img" class="w-100">
+            </td>
+            <th scope="row">{{ product.product_name }}</th>
+            <th scope="row">{{ product.product_price }}</th>
+            <th scope="row">{{ product.product_type }}</th>
+            <td>
+              <div class="btn bg-main-green me-3 text-color-white" (click)="updateProduct(product._id)">
+                <i class="fa-solid fa-pencil fa-xl fs-5"></i>
+              </div>
+              <div class="btn bg-main-red text-color-white"
+                (click)="deleteProduct(product._id, product.product_name)">
+                <i class="fa-solid fa-trash fa-xl fs-5"></i>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+</section>

@@ -1,0 +1,22 @@
+<section class="bg-black pt-2 pb-4">
+  <div class="d-flex flex-column-reverse flex-lg-row justify-content-between align-items-center">
+    <div class="d-flex flex-column justify-content-lg-start justify-content-center ms-4 pizza-info">
+      <div class="text-color-white page-font fs-4">Pizza del día</div>
+      <div class="text-color-white page-font fs-1">Pizza Margarita</div>
+      <div class="text-color-white page-font fs-6 fw-light">Est sed sapien vestibulum ultrices massa. Aliquet quis
+        faucibus vel ut mauris tellus sapien ligula amet.</div>
+    </div>
+    <img src="../../../assets/img/green-circle-banner.png" alt="" class="green-circle-banner">
+    <img src="../../../assets/img/bigPizza.png" alt="" class="pizza-img">
+  </div>
+</section>
+<h2 class="mt-4 text-center logo-font text-color-black fs-1">Las más Vendidas</h2>
+<section class="d-flex container justify-content-center flex-column flex-lg-row pt-3 flex-wrap">
+  @for (item of Products(); track $index) {
+  @if(item.product_type == "pizza"){
+  <app-products-template [product_src_img]="item.product_src_img" [product_name]="item.product_name"
+    [product_ingredients]="item.product_ingredients" [product_price]="item.product_price"
+    (productData)="fromProductsTemplate($event)"></app-products-template>
+  }
+  }
+</section>

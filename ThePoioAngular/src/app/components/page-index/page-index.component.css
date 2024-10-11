@@ -1,0 +1,37 @@
+.pizza-img{
+  width: 485px;
+  margin-right: 100px;
+  z-index: 200;
+}
+
+.pizza-info{
+  padding-left: 100px;
+  padding-right: 120px;
+}
+
+.green-circle-banner{
+  width: 254px;
+  position: absolute;
+  transform: translate(1095px, -47px);
+}
+
+@media (max-width: 1364px){
+  .green-circle-banner{
+    display: none;
+  }
+  .pizza-img{
+    width: 385px;
+  }
+}
+
+@media (max-width: 805px){
+  .pizza-img{
+    width: 285px;
+    margin-left: 106px;
+    margin-bottom: 20px;
+  }
+  .pizza-info{
+    padding-left: 26px;
+    padding-right: 24px;
+  }
+}
